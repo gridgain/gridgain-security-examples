@@ -78,6 +78,10 @@
                                             {
                                                 cache:partitioned,
                                                 permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]
+                                            },
+                                            {
+                                                task:'org.gridgain.examples.task.*',
+                                                permissions:[TASK_EXECUTE]
                                             }
                                         }"/>
 
