@@ -32,8 +32,8 @@
     <bean id="grid.cfg" parent="grid.cfg.base">
         <property name="securityCredentialsProvider">
             <bean class="org.gridgain.grid.security.GridSecurityCredentialsBasicProvider">
-                <constructor-arg ref="client.cred"/>
-                <!--<constructor-arg ref="client.noremove.cred"/>-->
+                <constructor-arg ref="client.good.cred"/>
+                <!--<constructor-arg ref="client.bad.cred"/>-->
             </bean>
         </property>
     </bean>

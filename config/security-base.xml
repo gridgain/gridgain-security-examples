@@ -71,11 +71,11 @@
                                 <entry key-ref="node.cred" value="{defaultAllow:true}"/>
 
                                 <!-- Allow only partitioned cache access on client node -->
-                                <entry key-ref="client.cred"
+                                <entry key-ref="client.good.cred"
                                        value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]}}"/>
 
                                 <!-- Allow only partitioned cache PUT and READ access on client node -->
-                                <entry key-ref="client.noremove.cred"
+                                <entry key-ref="client.bad.cred"
                                        value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_READ]}}"/>
                             </map>
                         </constructor-arg>
@@ -106,14 +106,14 @@
     </bean>
 
     <!-- Client 1 credentials -->
-    <bean id="client.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
-        <constructor-arg value="client"/>
+    <bean id="client.good.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="good.user"/>
         <constructor-arg value="password"/>
     </bean>
 
     <!-- Client 2 credentials -->
-    <bean id="client.noremove.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
-        <constructor-arg value="client-no-remove"/>
+    <bean id="client.bad.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="bad.user"/>
         <constructor-arg value="password"/>
     </bean>
 
