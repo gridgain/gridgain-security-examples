@@ -23,6 +23,9 @@ public class DataNodeStartup {
      * @throws Exception If startup failed.
      */
     public static void main(String[] args) throws Exception {
+        // INFO logging is disabled in quiet mode.
+        System.setProperty("GRIDGAIN_QUIET", "false");
+
         try (Grid g = GridGain.start("config/security-data-node.xml")) {
             System.out.println("Press 'Enter' to exit data node.");
 

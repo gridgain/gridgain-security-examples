@@ -85,7 +85,8 @@ public class AuditEventStorageSpi extends GridSpiAdapter implements GridEventSto
      */
     private void log(String msg) {
         // Log to error.
-        log.error(msg);
+        log.info(">>>");
+        log.info(">>>" + msg);
     }
 
     /** {@inheritDoc} */
