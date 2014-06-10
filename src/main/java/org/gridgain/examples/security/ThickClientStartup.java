@@ -24,7 +24,7 @@ public class ThickClientStartup {
         // Uncomment to disable quiet logging mode (INFO logging is disabled in quiet mode).
         //System.setProperty("GRIDGAIN_QUIET", "false");
 
-        try (Grid g = GridGain.start("config/security-client-node.xml")) {
+        try (Grid g = GridGain.start("config/security-thick-client.xml")) {
             System.out.println("Client node started: " + g.localNode().id());
 
             GridCache<Integer, String> c = g.cache(DataNodeStartup.CACHE_NAME);

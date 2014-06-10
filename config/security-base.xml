@@ -72,11 +72,11 @@
 
                                 <!-- Allow only partitioned cache access on client node -->
                                 <entry key-ref="client.good.cred"
-                                       value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]}}"/>
+                                    value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]}}"/>
 
                                 <!-- Allow only partitioned cache PUT and READ access on client node -->
                                 <entry key-ref="client.bad.cred"
-                                       value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_READ]}}"/>
+                                    value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_READ]}}"/>
                             </map>
                         </constructor-arg>
                     </bean>
