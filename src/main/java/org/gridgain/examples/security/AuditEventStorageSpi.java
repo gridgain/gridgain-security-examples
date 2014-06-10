@@ -49,7 +49,7 @@ public class AuditEventStorageSpi extends GridSpiAdapter implements GridEventSto
             try {
                 GridSecuritySubject subj = getSpiContext().authenticatedSubject(subjId);
 
-                log.error("Cache event [evt=" + e.name() +
+                log("Cache event [evt=" + e.name() +
                     ", subjId=" + subjId +
                     ", subjType=" + subj.type() +
                     ", addr=" + subj.address() +
@@ -62,7 +62,7 @@ public class AuditEventStorageSpi extends GridSpiAdapter implements GridEventSto
         else if (evt.type() == EVT_AUTHORIZATION_FAILED) {
             GridAuthorizationEvent e = (GridAuthorizationEvent)evt;
 
-            log.error("Authorization failed [evt=" + e.name() +
+            log("Authorization failed [evt=" + e.name() +
                 ", perm=" + e.operation() +
                 ", subjId=" + e.subject().id() +
                 ", subjType=" + e.subject().type() +
@@ -73,9 +73,19 @@ public class AuditEventStorageSpi extends GridSpiAdapter implements GridEventSto
                 evt.type() == EVT_AUTHENTICATION_SUCCEEDED) {
             GridAuthenticationEvent e = (GridAuthenticationEvent)evt;
 
-            log.error("Authentication event [evt=" + e.name() + ", subjId=" + e.subjectId() + ", " +
+            log("Authentication event [evt=" + e.name() + ", subjId=" + e.subjectId() + ", " +
                 "subjType=" + e.subjectType() + ", login=" + e.login() + ']');
         }
+    }
+
+    /**
+     * Performs logging. Currently simply logs to a file.
+     *
+     * @param msg Message to log.
+     */
+    private void log(String msg) {
+        // Log to error.
+        log.error(msg);
     }
 
     /** {@inheritDoc} */
