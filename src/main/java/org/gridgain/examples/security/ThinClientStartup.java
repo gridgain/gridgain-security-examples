@@ -23,6 +23,7 @@ public class ThinClientStartup {
 
     /** Login. Change to client-no-remove to switch to client without remove permissions. */
     public static final String CLIENT_LOGIN = "client";
+    //public static final String CLIENT_LOGIN = "client-no-remove";
 
     /** Password. */
     public static final String CLIENT_PASSWORD = "password";

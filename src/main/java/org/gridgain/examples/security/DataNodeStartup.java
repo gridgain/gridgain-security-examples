@@ -26,6 +26,7 @@ public class DataNodeStartup {
         try (Grid g = GridGain.start("config/security-data-node.xml")) {
             System.out.println("Press 'Enter' to exit data node.");
 
+            // Wait until killed by user.
             System.in.read();
         }
     }

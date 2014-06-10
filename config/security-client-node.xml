@@ -33,6 +33,7 @@
         <property name="securityCredentialsProvider">
             <bean class="org.gridgain.grid.security.GridSecurityCredentialsBasicProvider">
                 <constructor-arg ref="client.cred"/>
+                <!--<constructor-arg ref="client.noremove.cred"/>-->
             </bean>
         </property>
     </bean>
