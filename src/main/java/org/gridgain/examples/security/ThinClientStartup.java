@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Starts remote client and performs a number of cache operations.
  */
-public class ClientStartup {
+public class ThinClientStartup {
     /** Server address. */
     public static final String SRV_ADDR = "localhost:11211";
 

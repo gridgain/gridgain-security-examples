@@ -15,7 +15,7 @@ import org.gridgain.grid.cache.*;
 /**
  * Starts client node and performs a number of cache operations.
  */
-public class ClientNodeStartup {
+public class ThickClientStartup {
     /**
      * @param args Arguments.
      * @throws Exception If startup failed.
