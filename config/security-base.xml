@@ -67,16 +67,30 @@
                     <bean class="org.gridgain.grid.spi.authentication.GridAuthenticationAclBasicProvider">
                         <constructor-arg>
                             <map>
-                                <!-- Allow all operations on data nodes -->
+                                <!-- Allow all operations on data nodes. -->
                                 <entry key-ref="node.cred" value="{defaultAllow:true}"/>
 
                                 <!-- Allow only partitioned cache access on client node -->
                                 <entry key-ref="client.good.cred"
-                                    value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]}}"/>
+                                    value="
+                                        {
+                                            defaultAllow:false,
+                                            {
+                                                cache:partitioned,
+                                                permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]
+                                            }
+                                        }"/>
 
-                                <!-- Allow only partitioned cache PUT and READ access on client node -->
+                                <!-- Allow only partitioned cache PUT and READ access on client node. -->
                                 <entry key-ref="client.bad.cred"
-                                    value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_READ]}}"/>
+                                    value="
+                                        {
+                                            defaultAllow:false,
+                                            {
+                                                cache:partitioned,
+                                                permissions:[CACHE_PUT,CACHE_READ]
+                                            }
+                                        }"/>
                             </map>
                         </constructor-arg>
                     </bean>
