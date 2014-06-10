@@ -21,9 +21,9 @@ public class ThinClientStartup {
     /** Server address. */
     public static final String SRV_ADDR = "localhost:11211";
 
-    /** Login. Change to client-no-remove to switch to client without remove permissions. */
+    /** Login credentials (change to 'bad.user' to switch to user without remove permissions). */
     public static final String CLIENT_LOGIN = "good.user";
-//    public static final String CLIENT_LOGIN = "bad.user";
+    // public static final String CLIENT_LOGIN = "bad.user";
 
     /** Password. */
     public static final String CLIENT_PASSWORD = "password";
