@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    _________        _____ __________________        _____
+    __  ____/___________(_)______  /__  ____/______ ____(_)_______
+    _  / __  __  ___/__  / _  __  / _  / __  _  __ `/__  / __  __ \
+    / /_/ /  _  /    _  /  / /_/ /  / /_/ /  / /_/ / _  /  _  / / /
+    \____/   /_/     /_/   \_,__/   \____/   \__,_/  /_/   /_/ /_/
+
+    Copyright (C) GridGain Systems. All Rights Reserved.
+    Version: In-Memory Platform 6.1.7
+-->
+
+<!--
+    GridGain Spring base configuration file to startup grid security example.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <bean id="grid.cfg.base" abstract="true" class="org.gridgain.grid.GridConfiguration">
+        <!-- Set to local host address just for examples. -->
+        <property name="localHost" value="127.0.0.1"/>
+
+        <!-- Set to true to enable grid-aware class loading for examples, default is false. -->
+        <property name="peerClassLoadingEnabled" value="true"/>
+
+        <property name="marshaller">
+            <bean class="org.gridgain.grid.marshaller.optimized.GridOptimizedMarshaller">
+                <!-- Set to false to allow non-serializable objects, default is true. -->
+                <property name="requireSerializable" value="false"/>
+            </bean>
+        </property>
+
+        <!-- Enable cache and authentication events. -->
+        <property name="includeEventTypes">
+            <list>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_CACHE_OBJECT_PUT"/>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_CACHE_OBJECT_REMOVED"/>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_CACHE_OBJECT_READ"/>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_AUTHENTICATION_SUCCEEDED"/>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_AUTHENTICATION_FAILED"/>
+                <util:constant static-field="org.gridgain.grid.events.GridEventType.EVT_AUTHORIZATION_FAILED"/>
+            </list>
+        </property>
+
+        <property name="eventStorageSpi">
+            <bean class="org.gridgain.examples.security.AuditEventStorageSpi"/>
+        </property>
+
+        <!-- Cache configurations. -->
+        <property name="cacheConfiguration">
+            <list>
+                <!-- Partitioned cache configuration. -->
+                <ref bean="cache.cfg"/>
+            </list>
+        </property>
+
+        <!-- Set up authentication -->
+        <property name="authenticationSpi">
+            <bean class="org.gridgain.grid.spi.authentication.passcode.GridPasscodeAuthenticationSpi">
+                <property name="aclProvider">
+                    <bean class="org.gridgain.grid.spi.authentication.GridAuthenticationAclBasicProvider">
+                        <constructor-arg>
+                            <map>
+                                <!-- Allow all operations on data nodes -->
+                                <entry key-ref="node.cred" value="{defaultAllow:true}"/>
+
+                                <!-- Allow only partitioned cache access on client node -->
+                                <entry key-ref="client.cred"
+                                       value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_REMOVE,CACHE_READ]}}"/>
+
+                                <!-- Allow only partitioned cache PUT and READ access on client node -->
+                                <entry key-ref="client.noremove.cred"
+                                       value="{defaultAllow:false, {cache:partitioned, permissions:[CACHE_PUT,CACHE_READ]}}"/>
+                            </map>
+                        </constructor-arg>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <!-- Set up secure session -->
+        <property name="secureSessionSpi">
+            <bean class="org.gridgain.grid.spi.securesession.rememberme.GridRememberMeSecureSessionSpi"/>
+        </property>
+
+        <!-- Set up indexing -->
+        <property name="indexingSpi">
+            <list>
+                <bean class="org.gridgain.grid.spi.indexing.h2.GridH2IndexingSpi">
+                    <property name="defaultIndexPrimitiveKey" value="true"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Data node credentials -->
+    <bean id="node.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="node"/>
+        <constructor-arg value="password"/>
+    </bean>
+
+    <!-- Client 1 credentials -->
+    <bean id="client.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="client"/>
+        <constructor-arg value="password"/>
+    </bean>
+
+    <!-- Client 2 credentials -->
+    <bean id="client.noremove.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="client-no-remove"/>
+        <constructor-arg value="password"/>
+    </bean>
+
+    <!-- Template for cache configurations. -->
+    <bean id="cache.cfg.base" abstract="true" class="org.gridgain.grid.cache.GridCacheConfiguration">
+        <!-- Cache name. -->
+        <property name="name" value="partitioned"/>
+
+        <!-- Cache mode -->
+        <property name="cacheMode" value="PARTITIONED"/>
+
+        <!-- Cache atomicity mode. -->
+        <property name="atomicityMode" value="ATOMIC"/>
+
+        <!-- Cache distribution mode. -->
+        <property name="distributionMode" value="PARTITIONED_ONLY"/>
+
+        <!-- Number of cache backups. -->
+        <property name="backups" value="1"/>
+
+        <!-- Initial cache size. -->
+        <property name="startSize" value="3000000"/>
+
+        <!-- Set synchronous preloading (default is asynchronous). -->
+        <property name="preloadMode" value="SYNC"/>
+
+        <!-- Set to FULL_SYNC for examples, default is PRIMARY_SYNC. -->
+        <property name="writeSynchronizationMode" value="FULL_SYNC"/>
+
+        <!-- Set to true to enable indexing for query examples, default value is false. -->
+        <property name="queryIndexEnabled" value="true"/>
+    </bean>
+</beans>
