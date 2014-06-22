@@ -95,6 +95,16 @@
                                                 permissions:[CACHE_PUT,CACHE_READ]
                                             }
                                         }"/>
+
+                                <!-- Configure credentials for management console. -->
+                                <entry key-ref="node.management.cred"
+                                    value="
+                                        {
+                                            defaultAllow:false,
+                                            {
+                                                system:[ADMIN_VIEW,ADMIN_QUERY,ADMIN_CACHE]
+                                            }
+                                        }"/>
                             </map>
                         </constructor-arg>
                     </bean>
@@ -120,6 +130,12 @@
     <!-- Data node credentials -->
     <bean id="node.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
         <constructor-arg value="node"/>
+        <constructor-arg value="password"/>
+    </bean>
+
+    <!-- Management console credentials -->
+    <bean id="node.management.cred" class="org.gridgain.grid.security.GridSecurityCredentials">
+        <constructor-arg value="visor"/>
         <constructor-arg value="password"/>
     </bean>
 
